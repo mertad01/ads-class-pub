@@ -19,7 +19,6 @@ class Animal(ABC):
     @abstractmethod
     def sound(self):
         """Make some noise"""
-        pass
 
     def __str__(self):
         """__str__"""
@@ -30,49 +29,49 @@ class Bird(Animal):
     """Class Bird"""
 
     @abstractmethod
-    def __init__(self, spec_init, age_init, color_init, flying_init):
+    def __init__(self, spec_init, age_init, color_init, flying_init: bool):
         """Bird __init__"""
-        # TODO: Invoke __init__ of the superclass
-        # TODO: Initialize self._flying
-        raise NotImplementedError
+        super().__init__(spec_init, age_init, color_init)
+        self._flying = flying_init
 
     def __str__(self):
         """___str__"""
         if self._flying:
             return "Flying " + super().__str__()
-        else:
-            return "Non-flying " + super().__str__()
+        return "Non-flying " + super().__str__()
 
 
-class Mammal(Animal):
+class Mammal(Animal):  # pylint: disable=too-few-public-methods
     """Class Mammal"""
 
     @abstractmethod
     def __init__(self, spec_init, age_init, color_init, habitat_init):
         """Mammal __init__"""
-        # TODO: Invoke __init__ of the superclass
-        # TODO: If habitat_init is "Land", "Sea", "Air" or "Tree", initialize self._habitat, else raise a ValueError
-        raise NotImplementedError
+        super().__init__(spec_init, age_init, color_init)
+        possible_habitats = ["Land", "Sea", "Air", "Tree"]
+        if habitat_init in possible_habitats:
+            self._habitat = habitat_init
+        else:
+            raise ValueError("Incorrect habitat value")
 
 
-class Parrot(Bird):
+
+class Parrot(Bird):  # pylint: disable=too-few-public-methods
     """Parrot class"""
 
     def __init__(self, age_init, color_init, talking_init):
         """Parrot __init__"""
-        # TODO: Invoke __init__ of the superclass
-        # TODO: Initialize self._talking
-        raise NotImplementedError
+        super().__init__("Parrot", age_init, color_init, True)
+        self._talking = talking_init
 
     def sound(self):
         """Making Parrot noise"""
         if self._talking:
             return "'Polly wants a cracker'"
-        else:
-            return "nothing"
+        return "nothing"
 
 
-class Penguin(Bird):
+class Penguin(Bird):  # pylint: disable=too-few-public-methods
     """Penguin class"""
 
     def __init__(self, age_init, color_init):
@@ -84,7 +83,7 @@ class Penguin(Bird):
         return "nothing"
 
 
-class Canine(Mammal):
+class Canine(Mammal):  # pylint: disable=too-few-public-methods
     """Class Canine"""
 
     @abstractmethod
@@ -93,7 +92,7 @@ class Canine(Mammal):
         super().__init__(spec_init, age_init, color_init, habitat_init)
 
 
-class Feline(Mammal):
+class Feline(Mammal):  # pylint: disable=too-few-public-methods
     """Class Feline"""
 
     @abstractmethod
@@ -105,21 +104,19 @@ class Feline(Mammal):
         return "Meow!"
 
 
-class Dog(Canine):
+class Dog(Canine):  # pylint: disable=too-few-public-methods
     """Class Dog"""
 
     def __init__(self, age_init, color_init):
         """Dog __init__"""
-        # TODO: Invoke __init__ of the superclass. All dogs live on Land
-        raise NotImplementedError
+        super().__init__("Dog", age_init, color_init, "Land")
 
     def sound(self):
         """Making Dog noise"""
-        # TODO: All dogs say "Woof!"
-        raise NotImplementedError
+        return "Woof!"
 
 
-class HouseCat(Feline):
+class HouseCat(Feline):  # pylint: disable=too-few-public-methods
     """Class HouseCat"""
 
     def __init__(self, age_init, color_init):
@@ -130,12 +127,11 @@ class HouseCat(Feline):
 class BobCat(Feline):
     """Class BobCat"""
 
-    def __init__(self, age_, color_, habitat_):
+    def __init__(self, age_init, color_init, habitat_init):
         """BobCat __init__"""
-        # TODO: Invoke __init__ of the superclass
-        raise NotImplementedError
+        super().__init__("Bobcat", age_init, color_init, habitat_init)
 
     def __str__(self):
         """BobCat __str__"""
-        # TODO: Return a string to match the expected output
-        raise NotImplementedError
+        #return f"{self._color} {self._habitat} {self._spec} (" + str(self._age) + " yo)"
+        return f"{self._color} {self._habitat} {self._spec} ({self._age} yo)"

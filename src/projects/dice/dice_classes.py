@@ -20,20 +20,21 @@ class Die:
     @property
     def value(self):
         """Get the die value"""
-        raise NotImplementedError
+        return self._value
 
     @value.setter
     def value(self, _):
         """Value property setter"""
-        raise ValueError("You must roll the die to change its value")
+        raise ValueError("You must roll the die to change its value") # pylint: disable=no-self-use
 
     def __str__(self):
         """__str__ override"""
-        raise NotImplementedError
+        return f"{self._value}"
 
     def roll(self):
         """Roll the die"""
-        raise NotImplementedError
+        self._value = random.choice(self._all_values)
+        return self._value
 
 
 class FrozenDie(Die):
@@ -47,16 +48,19 @@ class FrozenDie(Die):
     @property
     def frozen(self) -> bool:
         """Frozen property getter"""
-        raise NotImplementedError
+        return self._frozen
 
     @frozen.setter
     def frozen(self, new_value: bool) -> None:
         """Frozen property setter"""
-        raise NotImplementedError
+        self._frozen = new_value
 
     def roll(self):
         """Roll the die"""
-        raise NotImplementedError
+        if self._frozen:
+            return self._value
+        super().roll()
+        return self._value
 
 
 class Cup:
@@ -64,7 +68,9 @@ class Cup:
 
     def __init__(self, num_dice: int, num_sides: int = 6) -> None:
         """Class FrozenDie constructor"""
-        self._dice = [Die(range(1, num_sides + 1)) for _ in range(num_dice)]
+        self._num_dice = num_dice
+        self._num_sides = num_sides
+        self._dice = [Die(range(1, self._num_sides + 1)) for _ in range(self._num_dice)]
 
     def __iter__(self):
         """Cup iterator"""
@@ -72,15 +78,15 @@ class Cup:
 
     def __str__(self) -> str:
         """__str__ override"""
-        raise NotImplementedError
+        return f"[{', '.join([str(i) for i in self._dice ])}]"
 
     def shake(self) -> None:
         """Shake a cup"""
-        raise NotImplementedError
+        self._dice = [Die(range(1, self._num_sides + 1)) for _ in range(self._num_dice)]
 
     def add(self, die: object) -> None:
         """Add a die to the cup"""
-        raise NotImplementedError
+        self._dice.append(die)
 
     def remove(self, idx: int):
         """Remove a die from the cup"""
@@ -88,4 +94,5 @@ class Cup:
 
     def roll(self, *args) -> None:
         """Roll specific dice"""
-        raise NotImplementedError
+        for arg in args:
+            self._dice[arg - 1] = Die(range(1, self._num_sides + 1))
