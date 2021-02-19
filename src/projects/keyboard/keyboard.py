@@ -25,8 +25,8 @@ def find_axis(key: str):
 def word_distance(first_word: str, second_word: str):
     """Find Result"""
 
-    first_list = list(first_word)
-    second_list = list(second_word)
+    first_list = tuple(first_word)
+    second_list = tuple(second_word)
     result = 0
 
     for count, i in enumerate(first_list):
