@@ -4,7 +4,6 @@ Touchscreen Keyboard
 """
 
 from collections import OrderedDict
-from timeit import Timer
 import operator
 
 keyboard = {
@@ -26,7 +25,7 @@ def spell_check(filename: str) -> None:
     """Rank words by their proximity to the target"""
     file = open(filename, "rt")
     test_cases = file.readline().strip()
-    working_dict = {}
+    working_dict: dict = {}
     for i in range(int(test_cases)):
         count_init = file.readline().strip().split()
         working_dict[count_init[0]] = {}
@@ -77,32 +76,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-"""
-    # for i in working_dict:
-    #     sorted_dict = {}
-    #     sorted_keys = sorted(working_dict[i], key=working_dict[i].get)
-    #     for k in sorted_keys:
-    #         sorted_dict[k] = working_dict[i][k]
-    #     working_dict[i] = sorted_dict
-
-    # sorted_keys = sorted(working_dict["ifpv"], key=working_dict["ifpv"].get)
-    # for k in sorted_keys:
-    #     sorted_dict[k] = working_dict["ifpv"][k]
-
-    # working_dict["ifpv"] = sorted_dict
-
-    # working_dict = {
-    #     "ifpv": {
-    #         "iopc": 0,
-    #         "icpc": 0,
-    #         "gcpc": 0
-    #     },
-    #     "edc": {
-    #         "wsx": 0,
-    #         "edc": 0,
-    #         "rfv": 0,
-    #         "plm": 0,
-    #         "qed": 0
-    #     }
-    # }
-"""
