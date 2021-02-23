@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stack exercise"""
+"""Testing Grounds"""
 
 from pythonds3.basic import Stack
 
@@ -137,3 +137,6 @@ def do_math(oper, oper_one, oper_two):
         return oper_one - oper_two
     else:
         raise TokenError(f'Unknown token: {oper}')
+
+
+print(rpn_calc("a b +"))
