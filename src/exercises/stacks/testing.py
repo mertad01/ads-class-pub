@@ -117,7 +117,6 @@ def rpn_calc(postfix_expr):
             else:
                 raise TokenError(f'Unknown token: {token}')
         answer = operand_stack.pop()
-        print(operand_stack.is_empty())
         if operand_stack.is_empty() is False:
             raise StackError("Stack is not empty")
         return answer
@@ -139,7 +138,9 @@ def do_math(oper, oper_one, oper_two):
         raise TokenError(f'Unknown token: {oper}')
 
 
-# print(rpn_calc("a b +"))
-print(base_converter(160, 1))
-print(base_converter(160, 6))
-print(base_converter(160, 0))
+print(rpn_calc("1 6 0 + +"))
+print(rpn_calc("1 6 / 0 -"))
+print(rpn_calc("1 6 // 0 **"))
+print(rpn_calc("1 6 0 +"))
+print(rpn_calc("1 6 0 + - *"))
+print(rpn_calc("1 1 + 1 6 + ** 1 9 + 1 9 + * /"))

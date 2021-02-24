@@ -1,18 +1,32 @@
 #!/usr/bin/env python3
 """
-Testing the Stack
+`stacks` testing
+
 @authors: Roman Yasinovskyy
-@updated: 2019
+@version: 2021.2
 """
 
+import importlib
+import pathlib
+import sys
+
 import pytest
-from src.exercises.stacks.stacks import rev_string
-from src.exercises.stacks.stacks import par_checker
-from src.exercises.stacks.stacks import par_checker_ext
-from src.exercises.stacks.stacks import par_checker_file
-from src.exercises.stacks.stacks import base_converter
-from src.exercises.stacks.stacks import rpn_calc
-from src.exercises.stacks.stacks import StackError, TokenError
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.exercises.stacks import (
+        StackError,
+        TokenError,
+        base_converter,
+        par_checker,
+        par_checker_ext,
+        par_checker_file,
+        rev_string,
+        rpn_calc,
+    )
 
 
 @pytest.mark.parametrize(
@@ -23,6 +37,7 @@ def test_rev_string(string, expected):
     assert rev_string(string) == expected
 
 
+@pytest.mark.skip("Textbook implementation")
 @pytest.mark.parametrize(
     "string, expected",
     [("((()))", True), ("(()", False), ("()(())", True), ("))((", False)],
@@ -72,8 +87,20 @@ def test_par_checker_file(capsys):
     ],
 )
 def test_base_converter(number, base, expected):
-    """Testing base_convrter method"""
+    """Testing base_converter method"""
     assert base_converter(number, base) == expected
+
+
+@pytest.mark.parametrize(
+    "number, base",
+    [(160, 1), (160, 6), (160, 0)],
+)
+def test_base_converter_error(number, base):
+    """Testing base_converter method errors"""
+    with pytest.raises(ValueError) as excinfo:
+        base_converter(number, base)
+    exception_msg = excinfo.value.args[0]
+    assert exception_msg == f"Cannot convert to base {base}."
 
 
 @pytest.mark.parametrize(
@@ -95,7 +122,7 @@ def test_rpn_calc(expression, expected):
     ],
 )
 def test_rpn_calc_float(expression, expected):
-    """Testing rpn_calc method with floatin point results"""
+    """Testing rpn_calc method with floating point results"""
     assert pytest.approx(rpn_calc(expression)) == expected
 
 
@@ -124,4 +151,4 @@ def test_rpn_calc_token_err(expression, err_message, token):
 
 
 if __name__ == "__main__":
-    pytest.main(["-vv", "test_stacks.py"])
+    pytest.main(["-v", __file__])
