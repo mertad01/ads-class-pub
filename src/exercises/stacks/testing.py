@@ -81,9 +81,9 @@ def base_converter(dec_num, base):
     """Convert a decimal number to any base"""
     try:
         if base not in [2, 8, 16]:
-            raise ValueError
-    except ValueError:
-        return f'You entered a base of {base} but only 2, 8, 16 are allowed.'
+            raise ValueError(f'Cannot convert to base {base}.')
+    except ValueError as exception:
+        return exception
 
     digits = "0123456789ABCDEF"
     rems = Stack()
@@ -139,4 +139,7 @@ def do_math(oper, oper_one, oper_two):
         raise TokenError(f'Unknown token: {oper}')
 
 
-print(rpn_calc("a b +"))
+# print(rpn_calc("a b +"))
+print(base_converter(160, 1))
+print(base_converter(160, 6))
+print(base_converter(160, 0))

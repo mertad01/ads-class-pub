@@ -79,11 +79,8 @@ def par_checker_file(filename):
 
 def base_converter(dec_num, base):
     """Convert a decimal number to any base"""
-    try:
-        if base not in [2, 8, 16]:
-            raise ValueError
-    except ValueError:
-        return f'You entered a base of {base} but only 2, 8, 16 are allowed.'
+    if base not in [2, 8, 16]:
+        raise ValueError(f'Cannot convert to base {base}.')
 
     digits = "0123456789ABCDEF"
     rems = Stack()
