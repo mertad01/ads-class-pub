@@ -25,52 +25,78 @@ class TokenError(Exception):
 def postfix_eval(postfix_expr: str) -> int:
     """Evaluate an expression"""
     operand_stack = Stack()
-    token_list = postfix_expr.split()
+    token_list = postfix_expr[:-2].split()
 
+    for token in token_list:
+        if token in "0123456789":
+            operand_stack.push(int(token))
+        elif token in ("+", "-", "*", "/", "%", "//", "**"):
+            operand2 = operand_stack.pop()
+            operand1 = operand_stack.pop()
+            result = do_math(token, operand1, operand2)
+            operand_stack.push(result)
+        else:
+            raise TokenError(f"Unknown token: {token}")
     try:
-        for token in token_list:
-            if token in "0123456789":
-                operand_stack.push(int(token))
-            elif token in "+-*/":
-                operand2 = operand_stack.pop()
-                operand1 = operand_stack.pop()
-                result = do_math(token, operand1, operand2)
-                operand_stack.push(result)
-            else:
-                raise TokenError(f'Unknown token: {token}')
         answer = operand_stack.pop()
-        if operand_stack.is_empty() is False:
-            raise StackError("Stack is not empty")
-        return answer
     except IndexError:
         raise StackError("Stack is empty") from IndexError
 
+    if not operand_stack.is_empty():
+        raise StackError("Stack is not empty")
 
-def do_math(oper: str, oper_one: int, oper_two: int) -> int:
+    return answer
+
+
+def do_math(oper: str, oper_one: int, oper_two: int):
     """Process arithmetic operations"""
-    if oper == "*":  # pylint: disable=no-else-return
-        return oper_one * oper_two
-    elif oper == "/":
-        return oper_one / oper_two
-    elif oper == "+":
+    if oper == "+":
         return oper_one + oper_two
     elif oper == "-":
         return oper_one - oper_two
+    elif oper == "*":
+        return oper_one * oper_two
+    elif oper == "/":
+        return oper_one / oper_two
+    elif oper == "%":
+        return oper_one % oper_two
+    elif oper == "//":
+        return oper_one // oper_two
+    elif oper == "**":
+        return oper_one ** oper_two
     else:
-        raise TokenError(f'Unknown token: {oper}')
+        raise SyntaxError("invalid syntax")
 
 
 def rpn_calc(filename: str) -> int:
     """Read lines from the file and pass them to the postfix_eval"""
-    # TODO: Read lines from the file and pass them to the postfix_eval
     file = open(filename, "rt")
+    contents = file.readlines()
+    for i in contents:
+        output = postfix_eval(i.strip())
     file.close()
+    return output
 
 
 def main():
     """Main function"""
-    checksum = rpn_calc("data/projects/rpn/rpn_input_1.txt")
-    print(f"Checksum is {checksum:.2f}")
+    # print(postfix_eval("a b + ="))
+    # rpn_calc(f"/home/adam/Documents/CS-160/ads-class-pub/data/projects/rpn/rpn_input_1.txt")
+    print(postfix_eval("1 6 0 + + ="))
+    print(postfix_eval("1 6 0 - - ="))
+    print(postfix_eval("1 6 0 * * ="))
+    print(postfix_eval("1 6 0 / / ="))
+    print(postfix_eval("1 6 0 % % ="))
+    print(postfix_eval("1 6 0 ** ** ="))
+    print(postfix_eval("1 6 0 // // ="))
+    print(postfix_eval("1 6 0 + * ="))
+    print(postfix_eval("1 6 0 - / ="))
+    print(postfix_eval("1 6 + 0 + ="))
+    print(postfix_eval("1 6 / 0 - ="))
+    print(postfix_eval("1 6 // 0 ** ="))
+    print(postfix_eval("1 6 0 + ="))
+    print(postfix_eval("1 6 0 + - * ="))
+    print(postfix_eval("1 1 + 1 6 + ** 1 9 + 1 9 + * / ="))
 
 
 if __name__ == "__main__":

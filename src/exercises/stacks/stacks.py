@@ -83,16 +83,16 @@ def base_converter(dec_num, base):
         raise ValueError(f'Cannot convert to base {base}.')
 
     digits = "0123456789ABCDEF"
-    rems = Stack()
+    remains = Stack()
 
     while dec_num > 0:
         rem = dec_num % base
-        rems.push(rem)
+        remains.push(rem)
         dec_num = dec_num // base
 
     output = ''
-    while not rems.is_empty():
-        output += digits[rems.pop()]
+    while not remains.is_empty():
+        output += digits[remains.pop()]
 
     return output
 
