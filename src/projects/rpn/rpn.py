@@ -28,15 +28,18 @@ def postfix_eval(postfix_expr: str) -> int:
     token_list = postfix_expr[:-2].split()
 
     for token in token_list:
-        if token in "0123456789":
-            operand_stack.push(int(token))
-        elif token in ("+", "-", "*", "/", "%", "//", "**"):
-            operand2 = operand_stack.pop()
-            operand1 = operand_stack.pop()
-            result = do_math(token, operand1, operand2)
-            operand_stack.push(result)
-        else:
-            raise TokenError(f"Unknown token: {token}")
+        # if token in "0123456789":
+        try:
+            if isinstance(int(token), int):
+                operand_stack.push(int(token))
+        except ValueError:
+            if token in ("+", "-", "*", "/", "%", "//", "**"):
+                operand2 = operand_stack.pop()
+                operand1 = operand_stack.pop()
+                result = do_math(token, operand1, operand2)
+                operand_stack.push(result)
+            else:
+                raise TokenError(f"Unknown token: {token}")
     try:
         answer = operand_stack.pop()
     except IndexError:
@@ -72,31 +75,28 @@ def rpn_calc(filename: str) -> int:
     """Read lines from the file and pass them to the postfix_eval"""
     file = open(filename, "rt")
     contents = file.readlines()
+    total = 0
     for i in contents:
-        output = postfix_eval(i.strip())
+        print(i)
+        try:
+            output = postfix_eval(i.strip())
+            total += output
+        except ZeroDivisionError:
+            total += 0
+        except StackError:
+            total += 0
+        except IndexError:
+            total += 0
     file.close()
-    return output
+    print(total)
+    return total
 
 
 def main():
     """Main function"""
     # print(postfix_eval("a b + ="))
-    # rpn_calc(f"/home/adam/Documents/CS-160/ads-class-pub/data/projects/rpn/rpn_input_1.txt")
-    print(postfix_eval("1 6 0 + + ="))
-    print(postfix_eval("1 6 0 - - ="))
-    print(postfix_eval("1 6 0 * * ="))
-    print(postfix_eval("1 6 0 / / ="))
-    print(postfix_eval("1 6 0 % % ="))
-    print(postfix_eval("1 6 0 ** ** ="))
-    print(postfix_eval("1 6 0 // // ="))
-    print(postfix_eval("1 6 0 + * ="))
-    print(postfix_eval("1 6 0 - / ="))
-    print(postfix_eval("1 6 + 0 + ="))
-    print(postfix_eval("1 6 / 0 - ="))
-    print(postfix_eval("1 6 // 0 ** ="))
-    print(postfix_eval("1 6 0 + ="))
-    print(postfix_eval("1 6 0 + - * ="))
-    print(postfix_eval("1 1 + 1 6 + ** 1 9 + 1 9 + * / ="))
+    # rpn_calc(f"/home/adam/Documents/CS-160/ads-class-pub/data/projects/rpn/rpn_input_2.txt")
+    print(postfix_eval("2 1 8 11 ** * // ="))
 
 
 if __name__ == "__main__":
