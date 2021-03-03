@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Recursion exercise code template"""
+"""
+Exercise `recursion` implementation
+
+@authors:
+"""
 
 
 def gcd(a: int, b: int) -> int:

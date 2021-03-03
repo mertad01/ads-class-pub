@@ -1,4 +1,3 @@
-test
 colorama
 pylint
 pytest
