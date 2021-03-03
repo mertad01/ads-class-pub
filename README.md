@@ -6,7 +6,7 @@
 * Class notes
 * Code templates
 
-## How do I get set up?
+## How do I get set up
 
   Windows users may have to substitute *python3* with *py -3* for the following commands to work. You should keep the same file structure as **this** repository and run all the commands from its top directory (i.e. ads-class-pub).
 
