@@ -1,6 +1,6 @@
 # README
 
-## What is this repository for?
+## What is this repository for
 
 * Algorithms and Data Structures class
 * Class notes
