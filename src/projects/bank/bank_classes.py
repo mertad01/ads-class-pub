@@ -158,27 +158,31 @@ class SavingsAccount(Account):
     """CheckingAccount class"""
 
     def __init__(
-        self, owner_init: object, interest_rate_init: float, balance_init: float = 0
+            self,
+            owner_init: object,
+            interest_rate_init: float,
+            balance_init: float = 0
     ):
         """Constructor"""
-        raise NotImplementedError
+        super().__init__(owner_init, balance_init)
+        self._interest_rate = interest_rate_init
 
     def yield_interest(self):
         """Yield annual interest"""
-        raise NotImplementedError
+        self._balance = self._balance * (1 + self._interest_rate / 100)
 
     def __str__(self):
         """__str__"""
-        raise NotImplementedError
+        return f"Savings account\nOwner: {self._owner}\nBalance: {self._balance:.2f}"
 
 
 def main():
     """Main"""
     addr = Address("700 College Dr", "Decorah", "IA", "52101")
     cstmr = Customer("John Doe", "1861-09-01", addr)
-    chk = CheckingAccount(cstmr, 15, 25)
-    chk.process_check(30)
-    print(chk)
+    sva = SavingsAccount(cstmr, 3.5, 200)
+    sva.yield_interest()
+    print(sva)
 
 
 if __name__ == "__main__":
