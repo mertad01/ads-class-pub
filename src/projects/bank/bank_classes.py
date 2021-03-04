@@ -116,11 +116,13 @@ class Account(ABC):
 
     def deposit(self, amount: float):
         """Add money"""
-        raise NotImplementedError
+        if amount <= 0:
+            raise ValueError("Must deposit positive amount")
+        self._balance += amount
 
     def close(self):
         """Close account"""
-        raise NotImplementedError
+        self._balance = 0
 
     def __str__(self):
         """__str__"""
@@ -130,17 +132,26 @@ class Account(ABC):
 class CheckingAccount(Account):
     """CheckingAccount class"""
 
-    def __init__(self, owner_init: object, fee_init: float, balance_init: float = 0):
+    def __init__(
+            self,
+            owner_init: object,
+            fee_init: float,
+            balance_init: float = 0
+    ):
         """Constructor"""
-        raise NotImplementedError
+        super().__init__(owner_init, balance_init)
+        self._insufficient_funds_fee = fee_init
 
     def process_check(self, amount: float):
         """Process a check"""
-        raise NotImplementedError
+        if amount > self._balance:
+            self._balance -= self._insufficient_funds_fee
+        else:
+            self._balance -= amount
 
     def __str__(self):
         """__str__"""
-        raise NotImplementedError
+        return f"Checking account\nOwner: {self._owner}\nBalance: {self._balance:.2f}"
 
 
 class SavingsAccount(Account):
@@ -159,3 +170,16 @@ class SavingsAccount(Account):
     def __str__(self):
         """__str__"""
         raise NotImplementedError
+
+
+def main():
+    """Main"""
+    addr = Address("700 College Dr", "Decorah", "IA", "52101")
+    cstmr = Customer("John Doe", "1861-09-01", addr)
+    chk = CheckingAccount(cstmr, 15, 25)
+    chk.process_check(30)
+    print(chk)
+
+
+if __name__ == "__main__":
+    main()
