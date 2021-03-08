@@ -124,9 +124,10 @@ class Account(ABC):
         """Close account"""
         self._balance = 0
 
-    def __str__(self):
-        """__str__"""
-        raise NotImplementedError
+    # Decided to just implement this in both CheckingAccount and SavingsAccount
+    # def __str__(self):
+    #     """__str__"""
+    #     raise NotImplementedError
 
 
 class CheckingAccount(Account):
