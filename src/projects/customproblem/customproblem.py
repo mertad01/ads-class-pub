@@ -33,10 +33,11 @@ class Folder(Vault):
                  passwd_init: str = None):
         super().__init__("Folder", passwd_init)
         for i in items_init:
-            if not isinstance(i, Data):
-                raise TypeError("items_init is not a type of data")
-        self._items = items_init
-        self._name = name_init
+            if isinstance(i, Card) or isinstance(i, Login):
+                self._items = items_init
+                self._name = name_init
+            else:
+                raise TypeError("items_init must only contain Cards or Logins")
 
     @property
     def get_items(self):
@@ -196,12 +197,11 @@ def main():
         "234",
         "2022/12/31"
     )
-    print(test_login == test_login_two)
-    print(test_card == test_card_two)
+    # print(test_login == test_login_two)
+    # print(test_card == test_card_two)
 
-    test_folder = Folder("Test Name", [test_login, test_card])
-    print(test_folder.get_items)
-    print(test_folder.get_name)
+    test_folder = Folder("Test Name", [test_login, "bing", test_card])
+    print(test_card.get_content)
 
 
 if __name__ == "__main__":
