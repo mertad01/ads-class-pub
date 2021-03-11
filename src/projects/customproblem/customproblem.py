@@ -4,7 +4,7 @@ Custom Problem: Password/Data Management System
 """
 
 from abc import ABC, abstractmethod
-from getpass import getpass
+# from getpass import getpass
 
 
 class Vault(ABC):
@@ -13,24 +13,30 @@ class Vault(ABC):
     @abstractmethod
     def __init__(self, type_init: str, passwd_init: str = None):
         self._type = type_init
+        self._passwd = passwd_init
 
     @property
     def get_type(self):
         """Return name of the Vault"""
         return self._type
 
+    @property
+    def get_passwd(self):
+        """Return password to the Vault"""
+        return self._passwd
+
 
 class Folder(Vault):
     """Folder containing list of data categorized"""
 
-    def __init__(self, items_init: list,
+    def __init__(self, name_init: str, items_init: list,
                  passwd_init: str = None):
         super().__init__("Folder", passwd_init)
         for i in items_init:
             if not isinstance(i, Data):
                 raise TypeError("items_init is not a type of data")
         self._items = items_init
-        self._passwd = passwd_init
+        self._name = name_init
 
     @property
     def get_items(self):
@@ -38,9 +44,9 @@ class Folder(Vault):
         return self._items
 
     @property
-    def get_passwd(self):
-        """Return password to the folder"""
-        return self._passwd
+    def get_name(self):
+        """Return name of the folder"""
+        return self._name
 
 
 class Data(Vault):
@@ -193,8 +199,9 @@ def main():
     print(test_login == test_login_two)
     print(test_card == test_card_two)
 
-    test_folder = Folder([test_login, test_card])
+    test_folder = Folder("Test Name", [test_login, test_card])
     print(test_folder.get_items)
+    print(test_folder.get_name)
 
 
 if __name__ == "__main__":
