@@ -2,7 +2,7 @@
 """
 Exercise `orderedlists` implementation
 
-@authors:
+@authors: Adam Mertzenich
 """
 
 import random
@@ -54,7 +54,15 @@ class OrderedList:
 
     def __getitem__(self, position: int):
         """Get item by its position"""
-        raise NotImplementedError
+        if position > self._count:
+            return self._count
+        idx = -1
+        current = self._head
+        while current:
+            idx += 1
+            if idx == position:
+                return current.data
+            current = current.next
 
     def __len__(self) -> int:
         """Get list size"""
@@ -79,7 +87,25 @@ class OrderedList:
 
     def add(self, value: typing.Any) -> None:
         """Add a new item to the list"""
-        raise NotImplementedError
+        current = self._head
+        previous = None
+        working = Node(value)
+
+        while current is not None and current.data < value:
+            previous = current
+            current = current.next
+
+        if previous is None:
+            working.next = self._head
+            self._head = working
+        else:
+            working.next = current
+            previous.next = working
+        self._count += 1
+
+        # value.next = self._head
+        # self._head = value
+        # self._count += 1
 
     def pop(self, position: int = None):
         """
@@ -89,15 +115,34 @@ class OrderedList:
         Raise ValueError if the list is empty
         Raise IndexError if the provided position is negative        
         """
-        raise NotImplementedError
+        if not self._head:
+            raise ValueError("Cannot pop from an empty list")
+        if position == None:
+            position = self._count
+        if position < 0:
+            raise IndexError("Invalid position for popping an item")
+        current = self._head
+        prev = None
+        cur_position = 0
+        while current.next and cur_position < position:
+            prev = current
+            current = current.next
+            cur_position += 1
+        result = current.data
+        if prev:
+            prev.next = current.next
+        else:
+            self._head = current.next
+        self._count -= 1
+        return result
 
     def append(self, value: typing.Any) -> None:
         """Add a new item to the end of the list"""
-        raise NotImplementedError
+        self.add(value)
 
     def insert(self, position: int, value: typing.Any) -> None:
         """Insert a new item into the list"""
-        raise NotImplementedError
+        self.add(value)
 
     def search(self, value: typing.Any) -> bool:
         """Search for an item in the list"""
@@ -112,4 +157,30 @@ class OrderedList:
 
     def index(self, value: typing.Any) -> int:
         """Return position of an item in the list"""
-        raise NotImplementedError
+        idx = -1
+        current = self._head
+        while current:
+            idx += 1
+            if current.data == value:
+                return idx
+            current = current.next
+        return -1
+
+
+def main():
+    """main"""
+    ord_lst2 = OrderedList()
+    ord_lst3 = OrderedList()
+    ord_lst3.add("boo")
+    ord_lst3.add("foo")
+    ord_lst3.add("buzz")
+    # for val in [1, 8, 6, 1, 2, 0, 1, 9]:
+    #     ord_lst2.add(val)
+    ol = OrderedList()
+    for i in [3, 8, 2, 7, 1, 0, 3, 5]:
+        ol.add(i)
+    print(ol[100])
+
+
+if __name__ == '__main__':
+    main()
