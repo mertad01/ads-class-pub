@@ -169,6 +169,8 @@ class OrderedList:
 
 def main():
     """main"""
+    ord_lst = OrderedList()
+    ord_lst.__getitem__()
     ord_lst2 = OrderedList()
     ord_lst3 = OrderedList()
     ord_lst3.add("boo")
@@ -176,10 +178,6 @@ def main():
     ord_lst3.add("buzz")
     # for val in [1, 8, 6, 1, 2, 0, 1, 9]:
     #     ord_lst2.add(val)
-    ol = OrderedList()
-    for i in [3, 8, 2, 7, 1, 0, 3, 5]:
-        ol.add(i)
-    print(ol[100])
 
 
 if __name__ == '__main__':
