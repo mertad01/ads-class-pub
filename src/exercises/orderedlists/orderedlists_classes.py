@@ -54,6 +54,8 @@ class OrderedList:
 
     def __getitem__(self, position: int):
         """Get item by its position"""
+        if self._count == 0:
+            raise Exception("The list is empty")
         if position > self._count:
             return self._count
         idx = -1
@@ -170,12 +172,13 @@ class OrderedList:
 def main():
     """main"""
     ord_lst = OrderedList()
-    ord_lst.__getitem__()
+    # ord_lst.__getitem__()
     ord_lst2 = OrderedList()
     ord_lst3 = OrderedList()
     ord_lst3.add("boo")
     ord_lst3.add("foo")
     ord_lst3.add("buzz")
+    ord_lst.__getitem__(0)
     # for val in [1, 8, 6, 1, 2, 0, 1, 9]:
     #     ord_lst2.add(val)
 
