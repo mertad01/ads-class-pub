@@ -25,7 +25,25 @@ def gcd(num_one: int, num_two: int) -> int:
 
 def diamond_ite(levels: int) -> None:
     """Print a diamond"""
-    raise NotImplementedError
+    output = "    5    "
+    for i in range(2 * levels - 1):
+        count = i + 1
+        output = ""
+        for i in range(((2*count) - 1)):
+            output += "*"
+        print(output)
+
+
+# output diamond_ite(5)
+#     *
+#    ***
+#   *****
+#  *******
+# *********
+#  *******
+#   *****
+#    ***
+#     *
 
 
 def diamond_rec(levels: int) -> None:
@@ -45,6 +63,7 @@ def hourglass_rec(levels: int) -> None:
 
 def main():
     """Main"""
+    diamond_ite(5)
 
 
 if __name__ == "__main__":
