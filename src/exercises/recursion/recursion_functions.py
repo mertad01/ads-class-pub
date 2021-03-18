@@ -2,7 +2,7 @@
 """
 `recursion` implementation
 
-@author:
+@author: Adam Mertzenich
 """
 # function from fractions.py:
 
