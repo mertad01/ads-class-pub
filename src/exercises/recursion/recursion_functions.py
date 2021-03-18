@@ -31,33 +31,23 @@ def diamond_ite(levels: int) -> None:
     for i in result:
         print(i)
 
-# output diamond_ite(5)
-#     *
-#    ***
-#   *****
-#  *******
-# *********
-#  *******
-#   *****
-#    ***
-#     *
-
 
 def diamond_rec(levels: int) -> None:
     """Print a diamond"""
-    diamond_rec_results(0, (levels*2)-1, levels-1)
+    diamond_rec_results(0, levels-1, (2*levels)-1)
 
-def diamond_rec_results(begin, end, center):
+def diamond_rec_results(front, center, back):
     """Print results of diamond_rec"""
-    if begin < end:
-        if begin <= center:
-            formatter = '{:^' + str(end) + '}'
-            print(formatter.format("*"))
+    if front < back:
+        if front <= center:
+            stars = '*' * ((front * 2) + 1)
+            formatter = '{:^' + str(back) + '}'
+            print(formatter.format(stars))
         else:
-            formatter = '{:^' + str(end) + '}'
-            test = begin - center
-            print(formatter.format("*" * test))
-        diamond_rec_results(begin+1, end, center)
+            stars = '*' * (((back - front) * 2) - 1)
+            formatter = '{:^' + str(back) + '}'
+            print(formatter.format(stars))
+        diamond_rec_results(front+1, center, back)
 
 
 
