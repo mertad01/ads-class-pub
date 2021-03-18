@@ -30,18 +30,15 @@ def hash_folding(key: int, size: int) -> int:
 
 def hash_str(key: str, size: int) -> int:
     """Find string hash using simple sum-of-values method"""
-    raise NotImplementedError
+    agg = 0
+    for i in key:
+        agg += ord(i)
+    return agg % size
 
 
 def hash_str_weighted(key: str, size: int) -> int:
     """Find string hash using character positions as weights"""
-    raise NotImplementedError
-
-
-def main():
-    """main"""
-    print()
-
-
-if __name__ == "__main__":
-    main()
+    agg = 0
+    for count, i in enumerate(key):
+        agg += ord(i) * (count)
+    return agg % size
