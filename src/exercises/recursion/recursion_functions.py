@@ -24,7 +24,6 @@ def diamond_ite(levels: int) -> None:
                 out += '*'
             formatter = '{:^' + str(runs) +'}'
             result.append(formatter.format(out))
-    foo = result[::-1]
     for i in result[::-1]:
         result.append(i)
     result.pop(levels)
@@ -36,10 +35,11 @@ def diamond_rec(levels: int) -> None:
     """Print a diamond"""
     diamond_rec_results(0, levels-1, (2*levels)-1)
 
+
 def diamond_rec_results(front, center, back):
     """Print results of diamond_rec"""
     if front < back:
-        if front <= center:
+        if front < center:
             stars = '*' * ((front * 2) + 1)
             formatter = '{:^' + str(back) + '}'
             print(formatter.format(stars))
@@ -63,7 +63,6 @@ def hourglass_ite(levels: int) -> None:
             runs -= 2
             formatter = '{:^' + str((2*levels)-1) + '}'
             result.append(formatter.format(output))
-    foo = result[::-1]
     for i in result[::-1]:
         result.append(i)
     result.pop(levels)
@@ -73,12 +72,26 @@ def hourglass_ite(levels: int) -> None:
 
 def hourglass_rec(levels: int) -> None:
     """Print an hourglass"""
-    raise NotImplementedError
+    hourglass_rec_results(0, levels-1, (2*levels)-1)
+
+
+def hourglass_rec_results(front, center, back):
+    """Print results of diamond_rec"""
+    if front < back:
+        if front <= center:
+            stars = '*' * (back - (2 * front))
+            formatter = '{:^' + str(back) + '}'
+            print(formatter.format(stars))
+        else:
+            stars = '*' * ((front - center) * 2 + 1)
+            formatter = '{:^' + str(back) + '}'
+            print(formatter.format(stars))
+        hourglass_rec_results(front+1, center, back)
 
 
 def main():
     """Main"""
-    diamond_rec(5)
+    hourglass_rec(5)
 
 
 if __name__ == "__main__":
