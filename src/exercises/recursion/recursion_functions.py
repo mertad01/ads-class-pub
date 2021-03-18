@@ -5,16 +5,6 @@
 @author:
 """
 # function from fractions.py:
-def old_gcd(num_a: int, num_b: int) -> int:
-    """
-    Greatest Common Denominator of two integers
-
-    Helper function to simplify fractions
-    """
-    while num_a % num_b:
-        num_a, num_b = num_b, num_a % num_b
-    return num_b
-
 
 def gcd(num_one: int, num_two: int) -> int:
     """Greatest Common Denominator"""
@@ -25,14 +15,21 @@ def gcd(num_one: int, num_two: int) -> int:
 
 def diamond_ite(levels: int) -> None:
     """Print a diamond"""
-    output = "    5    "
-    for i in range(2 * levels - 1):
-        count = i + 1
-        output = ""
-        for i in range(((2*count) - 1)):
-            output += "*"
-        print(output)
-
+    runs = (2*levels)-1
+    result = []
+    for i in range(runs):
+        out = '*'
+        if i < levels:
+            for k in range((2 * i)):
+                out += '*'
+            formatter = '{:^' + str(runs) +'}'
+            result.append(formatter.format(out))
+    foo = result[::-1]
+    for i in result[::-1]:
+        result.append(i)
+    result.pop(levels)
+    for i in result:
+        print(i)
 
 # output diamond_ite(5)
 #     *
@@ -48,12 +45,40 @@ def diamond_ite(levels: int) -> None:
 
 def diamond_rec(levels: int) -> None:
     """Print a diamond"""
-    raise NotImplementedError
+    diamond_rec_results(0, (levels*2)-1, levels-1)
+
+def diamond_rec_results(begin, end, center):
+    """Print results of diamond_rec"""
+    if begin < end:
+        if begin <= center:
+            formatter = '{:^' + str(end) + '}'
+            print(formatter.format("*"))
+        else:
+            formatter = '{:^' + str(end) + '}'
+            test = begin - center
+            print(formatter.format("*" * test))
+        diamond_rec_results(begin+1, end, center)
+
 
 
 def hourglass_ite(levels: int) -> None:
     """Print an hourglass"""
-    raise NotImplementedError
+    runs = (2*levels)-1
+    result = []
+    for i in range(runs):
+        output = '*'
+        if i < levels:
+            for k in range(runs-1):
+                output += '*'
+            runs -= 2
+            formatter = '{:^' + str((2*levels)-1) + '}'
+            result.append(formatter.format(output))
+    foo = result[::-1]
+    for i in result[::-1]:
+        result.append(i)
+    result.pop(levels)
+    for i in result:
+        print(i)
 
 
 def hourglass_rec(levels: int) -> None:
@@ -63,7 +88,7 @@ def hourglass_rec(levels: int) -> None:
 
 def main():
     """Main"""
-    diamond_ite(5)
+    diamond_rec(5)
 
 
 if __name__ == "__main__":
