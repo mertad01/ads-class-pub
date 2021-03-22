@@ -5,12 +5,14 @@ def some_method(n):
         return n + some_method(n - 1)
 
 def some_method_iter(n):
+    """Iter"""
     s = 0
     for i in range(1, n + 1):
         s += i
     return s
 
 def list_sum(lst):
+    """Sum of list recursion"""
     if len(lst) == 0:
         return 0
     elif len(lst) == 1:
@@ -20,6 +22,7 @@ def list_sum(lst):
         return lst[0] + list_sum(lst[1:])
 
 def list_sum_2(lst):
+    """Sum of list iterative"""
     s = 0
     for i in lst:
         s += i
@@ -27,6 +30,7 @@ def list_sum_2(lst):
 
 
 def main():
+    """Main"""
     # result = some_method(5)
     # print(result)
     print(list_sum([1, 32, 3, 6]))

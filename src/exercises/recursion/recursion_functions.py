@@ -4,7 +4,6 @@
 
 @author: Adam Mertzenich
 """
-# function from fractions.py:
 
 def gcd(num_one: int, num_two: int) -> int:
     """Greatest Common Denominator"""
