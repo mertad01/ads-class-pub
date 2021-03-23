@@ -9,6 +9,13 @@ JUG_1_MAX = 5
 JUG_2_MAX = 3
 
 
+def gcd(num_one: int, num_two: int) -> int:
+    """Greatest Common Denominator"""
+    if not num_one % num_two:
+        return num_two
+    return gcd(num_two, num_one % num_two)
+
+
 class State:
     """State of the jugs"""
 
@@ -94,16 +101,56 @@ class State:
 
 def search(start_state: State, goal: State, moves_lst: list):
     """Find a sequence of states"""
-    raise NotImplementedError
+    if start_state in moves_lst:
+        return None
+    moves_lst.append(start_state)
+    if start_state == goal:
+        return moves_lst
+
+    worker = start_state.clone()
+    worker.fill_jug_1()
+    result = search(worker, goal, moves_lst)
+    if result:
+        return result
+
+    worker = start_state.clone()
+    worker.fill_jug_2()
+    result = search(worker, goal, moves_lst)
+    if result:
+        return result
+
+    worker = start_state.clone()
+    worker.empty_jug_1()
+    result = search(worker, goal, moves_lst)
+    if result:
+        return result
+
+    worker = start_state.clone()
+    worker.empty_jug_2()
+    result = search(worker, goal, moves_lst)
+    if result:
+        return result
+
+    worker = start_state.clone()
+    worker.pour_jug_1_to_jug_2()
+    result = search(worker, goal, moves_lst)
+    if result:
+        return result
+
+    worker = start_state.clone()
+    worker.pour_jug_2_to_jug_1()
+    result = search(worker, goal, moves_lst)
+    if result:
+        return result
 
 
 def main():
     """Main"""
-    # goal = State(4, 0)
-    # start = State(0, 0)
-    # moves = []
-    # search(start, goal, moves)
-    # print(", ".join([str(s) for s in moves]))
+    start = State(0, 0)
+    goal = State(4, 0)
+    moves = list()
+    search(start, goal, moves)
+    print(", ".join([str(s) for s in moves]))
 
 
 if __name__ == "__main__":
