@@ -49,7 +49,6 @@ def diamond_rec_results(front, center, back):
         diamond_rec_results(front+1, center, back)
 
 
-
 def hourglass_ite(levels: int) -> None:
     """Print an hourglass"""
     runs = (2*levels)-1
