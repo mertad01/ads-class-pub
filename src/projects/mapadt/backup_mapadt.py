@@ -29,9 +29,9 @@ class HashMap:
         @param key: key of the item in the collection
         @param value: new value to be added to (updated in) the collection
         """
-        self.put(key, value)
+        self._put(key, value)
 
-    def put(self, key: int, value: Any) -> None:
+    def _put(self, key: int, value: Any) -> None:
         """
         Setter
 
@@ -45,14 +45,14 @@ class HashMap:
             self._values[hash_value] = value
         else:
             if self._keys[hash_value] == key:
-                self._values[hash_value] = value
+                self._values[hash_value] = value  # replace
             else:
-                next_slot = self._rehash(hash_value)
+                next_slot = self._rehash(hash_value, len(self._keys))
                 while (
-                        self._keys[next_slot] is not None
-                        and self._keys[next_slot] != key
+                    self._keys[next_slot] is not None
+                    and self._keys[next_slot] != key
                 ):
-                    next_slot = self._rehash(next_slot)
+                    next_slot = self._rehash(next_slot, len(self._keys))
 
                 if self._keys[next_slot] is None:
                     self._keys[next_slot] = key
@@ -80,7 +80,7 @@ class HashMap:
         while self._keys[position] is not None:
             if self._keys[position] == key:
                 return self._values[position]
-            position = self._rehash(position)
+            position = self._rehash(position, len(self._keys))
             if position == start_slot:
                 return None
 
@@ -90,11 +90,7 @@ class HashMap:
 
         @return a number of key-value pairs stored in the collection
         """
-        count = 0
-        for i in self._keys:
-            if i is not None:
-                count += 1
-        return count
+        return len(self._keys)
 
     def __contains__(self, key: int) -> bool:
         """
@@ -114,7 +110,11 @@ class HashMap:
 
         @return collections as a string
         """
-        raise NotImplementedError
+        output = {}
+        for count, i in enumerate(self._keys):
+            if i is not None:
+                output[self._keys[count]] = self._values[count]
+        return str(output)
 
     def _hash(self, key: int) -> int:
         """
@@ -142,7 +142,7 @@ class HashMap:
 
         @return all keys
         """
-        return self._keys
+        raise NotImplementedError
 
     def values(self) -> List[Any]:
         """
@@ -150,7 +150,7 @@ class HashMap:
 
         @return all values
         """
-        return self._values
+        raise NotImplementedError
 
     def items(self) -> List[Tuple[int, Any]]:
         """
@@ -159,6 +159,7 @@ class HashMap:
         @return all items
         """
         raise NotImplementedError
+
 
 def main():
     """main"""
