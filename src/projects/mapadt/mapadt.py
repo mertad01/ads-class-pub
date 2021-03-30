@@ -40,19 +40,23 @@ class HashMap:
         """
         hash_value = self._hash(key)
 
-        if self._keys[hash_value] is None:
+        if self._keys[hash_value] is None:  # Add value if new
             self._keys[hash_value] = key
             self._values[hash_value] = value
         else:
-            if self._keys[hash_value] == key:
+            if self._keys[hash_value] == key:  # Update key's value if exists
                 self._values[hash_value] = value
             else:
-                next_slot = self._rehash(hash_value)
+                next_slot = hash_value
+                step = 0
                 while (
                         self._keys[next_slot] is not None
                         and self._keys[next_slot] != key
                 ):
-                    next_slot = self._rehash(next_slot)
+                    step += 1
+                    next_slot = self._rehash(hash_value, step)
+                    if step > self._size:
+                        raise MemoryError("Hash Table is full")
 
                 if self._keys[next_slot] is None:
                     self._keys[next_slot] = key
@@ -77,10 +81,11 @@ class HashMap:
         start_slot = self._hash(key)
 
         position = start_slot
+        step = 1
         while self._keys[position] is not None:
             if self._keys[position] == key:
                 return self._values[position]
-            position = self._rehash(position)
+            position = self._rehash(position, step)
             if position == start_slot:
                 return None
 
@@ -90,11 +95,11 @@ class HashMap:
 
         @return a number of key-value pairs stored in the collection
         """
-        count = 0
+        length = 0
         for i in self._keys:
             if i is not None:
-                count += 1
-        return count
+                length += 1
+        return length
 
     def __contains__(self, key: int) -> bool:
         """
@@ -114,7 +119,12 @@ class HashMap:
 
         @return collections as a string
         """
-        raise NotImplementedError
+        items = {}
+        keys = self.keys()
+        values = self.values()
+        for count, i in enumerate(keys):
+            items[i] = values[count]
+        return str(items)
 
     def _hash(self, key: int) -> int:
         """
@@ -134,7 +144,7 @@ class HashMap:
         @param step: step (1 by default)
         @return new hash
         """
-        return (old_hash + step) % self._size
+        return (old_hash + step**2) % self._size
 
     def keys(self) -> List[int]:
         """
@@ -142,7 +152,11 @@ class HashMap:
 
         @return all keys
         """
-        return self._keys
+        keys = []
+        for i in self._keys:
+            if i is not None:
+                keys.append(i)
+        return keys
 
     def values(self) -> List[Any]:
         """
@@ -150,7 +164,11 @@ class HashMap:
 
         @return all values
         """
-        return self._values
+        vals = []
+        for i in self._values:
+            if i is not None:
+                vals.append(i)
+        return vals
 
     def items(self) -> List[Tuple[int, Any]]:
         """
@@ -158,15 +176,31 @@ class HashMap:
 
         @return all items
         """
-        raise NotImplementedError
+        items = []
+        keys = self.keys()
+        values = self.values()
+        for count, i in enumerate(keys):
+            items.append((i, values[count]))
+        return items
+
 
 def main():
     """main"""
-    hash_map = HashMap(11)
-    hash_map[0] = 1
-    hash_map[7] = 'carrot'
-    hash_map[3] = True
-    print(hash_map)
+    zoo = HashMap(11)
+    map_items = [
+        (54, "aardvark"),
+        (26, "beaver"),
+        (93, "cheetah"),
+        (17, "dolphin"),
+        (77, "elephant"),
+        (31, "flamingo"),
+        (44, "goat"),
+        (55, "hippo"),
+        (20, "iguana"),
+    ]
+    for key, value in map_items:
+        zoo[key] = value
+    print(zoo)
 
 
 if __name__ == "__main__":
