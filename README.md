@@ -66,7 +66,7 @@ python3 src/projects/hello/hello.py
 python3 src/projects/hello/hello.py data/projects/hello/data.in
 ```
 
-The source should be modified as follows (sys.argv contains all the arguments passed to the application, including the application file name itself as sys.argv[0]):
+The source should be modified as follows (sys.argv contains all the arguments passed to the application, including the application file name itself as sys.argv[0]) :
 
 ```python
 import sys
