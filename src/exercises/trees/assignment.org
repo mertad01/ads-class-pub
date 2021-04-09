@@ -1,0 +1,30 @@
+#+TITLE: Exercise 9: Trees
+#+OPTIONS: toc:nil
+
+Author: Adam Mertzenich
+
+* Why is the root on top?
+Complete the tasks assuming the following tree is given as input:
+[[./tree_algorithm.gv.png]]
+* Questions
+1. *What is the result of pre-order traversal of the tree in the picture?*
+
+   ALOHMRGIT
+2. *What is the result of in-order traversal of the tree in the picture?*
+
+   HOMLRAIGT
+3. *What is the result of post-order traversal of the tree in the picture?*
+
+   HMORLITGA
+4. *Draw 3 different trees with at least 8 nodes, so that the result of their in-order traversal is the same.*
+
+   FOQRMZATN
+
+   [[./q4t1.png]]
+
+   [[./q4t2.png]]
+
+   [[./q4t3.png]]
+5. *Given the result of in-order tree traversal is BDAEC and the result of post-order traversal is DBECA, what is the result of pre-order traversal of the same tree?*
+
+   ABDCE
