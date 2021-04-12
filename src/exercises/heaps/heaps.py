@@ -109,7 +109,7 @@ class BinaryHeapMax:
         """Move a node down"""
         while 2 * cur_idx + 1 < len(self._heap):
             min_child_idx = self._get_min_child(cur_idx)
-            if self._heap[cur_idx] > self._heap[min_child_idx]:
+            if self._heap[cur_idx] < self._heap[min_child_idx]:
                 self._heap[cur_idx], self._heap[min_child_idx] = (
                     self._heap[min_child_idx],
                     self._heap[cur_idx],
@@ -122,8 +122,8 @@ class BinaryHeapMax:
         if 2 * parent_idx + 2 > len(self._heap) - 1:
             return 2 * parent_idx + 1
         if self._heap[2 * parent_idx + 1] < self._heap[2 * parent_idx + 2]:
-            return 2 * parent_idx + 1
-        return 2 * parent_idx + 2
+            return 2 * parent_idx + 2
+        return 2 * parent_idx + 1
 
     def insert(self, item: Any):
         """Add a new item"""
@@ -170,6 +170,7 @@ def main():
     heap.insert(28)
     heap.insert(10)
     heap.insert(69)
+    heap.delete()
     print(heap)
 
     # a_heap = BinaryHeapMin()
