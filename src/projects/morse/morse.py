@@ -14,12 +14,13 @@ class Coder:
     """Morse code encoder and decoder"""
 
     def __init__(self, file_in: str):
-        self.morse_tree = BinaryTree("")
+        self.morse_tree = BinaryTree("*")
 
         with open(file_in) as morse_file:
             for line in morse_file:
                 letter, code = line.split()
                 self.follow_and_insert(code, letter)
+        self.morse_tree.inorder()
 
     def follow_and_insert(self, code_str: str, letter: str) -> None:
         """
@@ -28,7 +29,20 @@ class Coder:
         @param code_str: morse code sequence
         @param letter: letter corresponding to the `code_str`
         """
-        raise NotImplementedError
+        code_len = len(code_str)
+        cur_node = self.morse_tree
+        # print(letter, code_str)
+
+        for i in range(code_len):
+            if code_str[i] == ".":
+                if not cur_node.child_left:
+                    cur_node.insert_left("⬅")
+                cur_node = cur_node.child_left
+            if code_str[i] == "-":
+                if not cur_node.child_right:
+                    cur_node.insert_right("➡")
+                cur_node = cur_node.child_right
+        cur_node.root = letter
 
     def follow_and_retrieve(self, code_str: str) -> str:
         """
@@ -38,7 +52,22 @@ class Coder:
         @return letter corresponding to the `code_str`
         @raises ValueError if the code is not found
         """
-        raise NotImplementedError
+        code_len = len(code_str)
+        cur_node = self.morse_tree
+
+        try:
+            for i in range(code_len):
+                if code_str[i] == ".":
+                    cur_node = cur_node.child_left
+                elif code_str[i] == "-":
+                    cur_node = cur_node.child_right
+        except AttributeError:
+            raise ValueError(
+                f"Could not find {code_str} in the tree"
+            ) from AttributeError
+        if not cur_node:
+            raise ValueError(f"Could not find {code_str} in the tree")
+        return cur_node.root
 
     def find_path(self, tree: BinaryTree, letter: str, path: str) -> Union[bool, str]:
         """
@@ -69,3 +98,16 @@ class Coder:
         @return text corresponding to the code
         """
         raise NotImplementedError
+
+
+def main():
+    """Main"""
+    morse_coder = Coder("../../../data/projects/morse/morse.txt")
+    morse_coder.follow_and_retrieve("...-...")
+    # morse_coder = Coder("../../../data/projects/morse/test.txt")
+    # morse_tree = BinaryTree("*")
+    # morse_tree.inorder()
+
+
+if __name__ == "__main__":
+    main()
