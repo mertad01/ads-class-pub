@@ -20,7 +20,7 @@ class Coder:
             for line in morse_file:
                 letter, code = line.split()
                 self.follow_and_insert(code, letter)
-        self.morse_tree.inorder()
+        # self.morse_tree.inorder()  # debug
 
     def follow_and_insert(self, code_str: str, letter: str) -> None:
         """
@@ -31,7 +31,6 @@ class Coder:
         """
         code_len = len(code_str)
         cur_node = self.morse_tree
-        # print(letter, code_str)
 
         for i in range(code_len):
             if code_str[i] == ".":
@@ -55,6 +54,7 @@ class Coder:
         code_len = len(code_str)
         cur_node = self.morse_tree
 
+        # TODO: Rewrite as a recursive function instead of iterative
         try:
             for i in range(code_len):
                 if code_str[i] == ".":
@@ -97,13 +97,23 @@ class Coder:
         @param code: Morse code sequence to decode
         @return text corresponding to the code
         """
-        raise NotImplementedError
+        code_lst = code.split(' ')
+        output = ""
+        for i in code_lst:
+            try:
+                output += self.follow_and_retrieve(i)
+            except ValueError:
+                # NOTE: Ask why it is supposed to be {code}: {code}
+                raise ValueError(
+                    f"Could not decode {code}: {code} is not in the tree"
+                ) from ValueError
+        return output
 
 
 def main():
     """Main"""
     morse_coder = Coder("../../../data/projects/morse/morse.txt")
-    morse_coder.follow_and_retrieve("...-...")
+    print(morse_coder.decode("...---..."))
     # morse_coder = Coder("../../../data/projects/morse/test.txt")
     # morse_tree = BinaryTree("*")
     # morse_tree.inorder()
