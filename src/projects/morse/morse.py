@@ -54,7 +54,8 @@ class Coder:
         code_len = len(code_str)
         cur_node = self.morse_tree
 
-        # TODO: Rewrite as a recursive function instead of iterative
+        # NOTE: Ask if this needs to be recursive or if just find_path
+        # TODO: Rewrite as a recursive function instead of iterative, if required
         try:
             for i in range(code_len):
                 if code_str[i] == ".":
@@ -79,16 +80,34 @@ class Coder:
         @param path: path to the letter
         @return path to the letter
         """
-        raise NotImplementedError
+        # Base Case(s):
+        if not tree:
+            return False
+        if tree.root == letter:
+            return path
+
+        # Recursion:
+        worker = path
+        result = ""
+        if tree.child_left:
+            worker += "."
+            result = self.find_path(tree.child_left, letter, worker)
+        if tree.child_right:
+            pass
+        return result
 
     def encode(self, msg: str) -> str:
         """
         Encode a message
-        
+
         @param msg: text to encode
         @return Morse code representation of the the message
         """
-        raise NotImplementedError
+        code = []
+        tree = self.morse_tree
+        for i in msg.replace(" ", ""):
+            code.append(self.find_path(tree, i, ""))
+        return " ".join(code)
 
     def decode(self, code: str) -> str:
         """
@@ -113,7 +132,7 @@ class Coder:
 def main():
     """Main"""
     morse_coder = Coder("../../../data/projects/morse/morse.txt")
-    print(morse_coder.decode("...---..."))
+    print(morse_coder.encode("sos"))
     # morse_coder = Coder("../../../data/projects/morse/test.txt")
     # morse_tree = BinaryTree("*")
     # morse_tree.inorder()
