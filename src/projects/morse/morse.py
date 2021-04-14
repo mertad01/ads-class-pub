@@ -54,8 +54,6 @@ class Coder:
         code_len = len(code_str)
         cur_node = self.morse_tree
 
-        # NOTE: Ask if this needs to be recursive or if just find_path
-        # TODO: Rewrite as a recursive function instead of iterative, if required
         try:
             for i in range(code_len):
                 if code_str[i] == ".":
@@ -82,19 +80,14 @@ class Coder:
         """
         # Base Case(s):
         if not tree:
-            return False
-        if tree.root == letter:
+            return None
+        elif tree.root == letter:
             return path
+        return (
+            self.find_path(tree.child_left, letter, path+'.')
+            or self.find_path(tree.child_right, letter, path+'-')
+        )
 
-        # Recursion:
-        worker = path
-        result = ""
-        if tree.child_left:
-            worker += "."
-            result = self.find_path(tree.child_left, letter, worker)
-        if tree.child_right:
-            pass
-        return result
 
     def encode(self, msg: str) -> str:
         """
@@ -106,7 +99,10 @@ class Coder:
         code = []
         tree = self.morse_tree
         for i in msg.replace(" ", ""):
-            code.append(self.find_path(tree, i, ""))
+            out = self.find_path(tree, i, "")
+            if not out:
+                raise ValueError(f"Could not encode {msg}: {i} is not in the tree")
+            code.append(out)
         return " ".join(code)
 
     def decode(self, code: str) -> str:
@@ -132,7 +128,15 @@ class Coder:
 def main():
     """Main"""
     morse_coder = Coder("../../../data/projects/morse/morse.txt")
-    print(morse_coder.encode("sos"))
+    print(morse_coder.encode("HELLO"))
+
+    # test = BinaryTree("*")
+    # print(test.root)
+    # if not test.child_left and not test.child_right:
+    #     print("foo")
+    # test.insert_left("E")
+    # test.insert_right("T")
+    # print(test.child_left.root, test.root, test.child_right.root)
     # morse_coder = Coder("../../../data/projects/morse/test.txt")
     # morse_tree = BinaryTree("*")
     # morse_tree.inorder()
