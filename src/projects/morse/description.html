@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>description.html</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"  />
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css"  /><meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'><style> body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } </style><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script><script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script><script>document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });</script>
+</head>
+
+<body>
+
+<h1 id="---">•••---•••</h1>
+<p>This assignment is a good practice working with trees. You are to write a class Coder that allows you to <em>encode</em> and <em>decode</em> <a href="https://en.wikipedia.org/wiki/Morse_code">Morse code</a>. Morse code is a common code that is used to encode messages consisting of letters and digits. Each letter consists of a series of dots and dashes; for example, the code for the letter <em>a</em> is <code>•–</code> and the code for the letter <em>b</em> is <code>–•••</code>.</p>
+<h2 id="approach">Approach</h2>
+<p>Build a tree similar to the following (ours is going to be smaller as our alphabet is smaller):</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Morse_code_tree3.png" alt="Morse Code tree"></p>
+<p>Store each letter of the alphabet in a node of a binary tree. The root node is at level 0 and stores no letter. The left node at level 1 stores the letter <em>e</em> (code is <code>•</code>), and the right node stores the letter <em>t</em> (code is <code>–</code>). The 4 nodes at level 2 store the letters with codes <code>••</code>, <code>•–</code>, <code>–•</code>, and <code>––</code>. Other nodes follow the same pattern.</p>
+<p>To build the tree, read the file <em>data/projects/morse/morse.txt</em> in which each line consists of a letter followed by its code. The letters should be placed properly in the tree. To find the position for a letter in the tree, scan the code and branch left for a <em>dot</em> and branch right for a <em>dash</em>.</p>
+<p><em>Encode</em> a message by replacing each letter with its code.</p>
+<p><em>Decode</em> a message using the Morse code tree.</p>
+<h2 id="algorithm">Algorithm</h2>
+<h3 id="build-initialize-the-tree">Build (initialize) the tree</h3>
+<ol>
+<li>Create an empty <em>Binary Tree</em>.</li>
+<li>Split every line in a file into a letter and its code.</li>
+<li>Follow the code string to find a proper place for a letter based on the code.</li>
+</ol>
+<h3 id="find-the-proper-place-for-a-letter">Find the proper place for a letter</h3>
+<ol>
+<li>Start with the root of the tree as your current node.</li>
+<li>Repeat steps 3-6 for every symbol in the code.</li>
+<li>If a symbol is a <em>dot</em>, check if the left child is empty (<code>None</code>). If it is, insert a new node with &#39;&#39; (empty string) as a key.</li>
+<li>If a symbol is a <em>dot</em>, change the current node to the left child of the current node.</li>
+<li>If a symbol is a <em>dash</em>, check if the right child is empty (<code>None</code>). If it is, insert a new node with &#39;&#39; (empty string) as a key.</li>
+<li>If a symbol is a <em>dash</em>, change the current node to the right child of the current node.</li>
+<li>Assign the letter as a value to the current node.</li>
+</ol>
+<h3 id="find-a-letter-in-the-tree-by-its-code">Find a letter in the tree by its code</h3>
+<ol>
+<li>Start with the root of the tree as your current node.</li>
+<li>Repeat steps 3-4 for every symbol in the code.</li>
+<li>If a symbol is a <em>dot</em>, change the current node to the left child of the current node.</li>
+<li>If a symbol is a <em>dash</em>, change the current node to the right child of the current node.</li>
+<li>Return the value of the current node.</li>
+</ol>
+<h3 id="decode-letters-are-separated-by-spaces">Decode (letters are separated by spaces)</h3>
+<ol>
+<li>Start with an empty message.</li>
+<li>For every letter in the coded message, find it in the tree and append to the message.</li>
+<li>Return the resulting message.</li>
+</ol>
+<h3 id="encode">Encode</h3>
+<ol>
+<li>Start with an empty code message.</li>
+<li>For every word in the message do the following<ul>
+<li>For every letter in a word find the path to its node in the tree and append it (path) to the code</li>
+</ul>
+</li>
+<li>Return the resulting morse code</li>
+</ol>
+<h3 id="find-the-path-to-a-letter">Find the path to a letter</h3>
+<ol>
+<li>A function should take a tree, a letter, and a path as parameters.</li>
+<li>If a tree is empty, return <code>False</code></li>
+<li>If the tree root key is the letter, return the path</li>
+<li>In other cases return the result of recursive search in the left subtree (starting path <code>•</code>) or the right subtree (starting path <code>-</code>).</li>
+</ol>
+<h2 id="grading-criteria">Grading criteria</h2>
+<ol>
+<li>An initial tree is properly built based on the values read from the file.</li>
+<li>Letter insertion function is properly implemented.</li>
+<li>Letter retrieval function is properly implemented.</li>
+<li>Recursive code retrieval function is properly implemented.</li>
+<li>Pass all unit tests.</li>
+</ol>
+<h2 id="what-to-do">What to do</h2>
+<p><code>python3</code> should be <code>python3.9</code> or newer.</p>
+<ul>
+<li>Read <em>src/projects/morse/description.md</em> (this file).</li>
+<li>Modify <em>src/projects/morse/morse.py</em>.</li>
+<li>Run <em>src/projects/morse/morse_main.py</em>.</li>
+</ul>
+<pre><code class="language-bash">python3 src/projects/morse/morse_main.py
+</code></pre>
+<ul>
+<li>Compare your output to that provided in <em>tests/projects/morse/morse_output.txt</em>.</li>
+<li>Test your implementation.</li>
+</ul>
+<pre><code class="language-bash">python3 -m pytest tests/projects/morse/test_morse.py
+</code></pre>
+
+
+</body>
+</html>
