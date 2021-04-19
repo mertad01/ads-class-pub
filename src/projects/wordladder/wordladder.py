@@ -39,7 +39,15 @@ class Solver:
         @return number of different letters in the same positions
         @raises ValueError if words are not of the same length
         """
-        raise NotImplementedError
+        if len(word1) != len(word2):
+            raise ValueError("Must use words of the same length")
+
+        dist = 0
+        for count, i in enumerate(word1):
+            if i != word2[count]:
+                dist += 1
+
+        return dist
 
     def diff_by_one_all(
         self, word: str, all_words: Set[str], used_words: Set[str]
@@ -51,7 +59,14 @@ class Solver:
         @param all_words: all words of the same length as `word`
         @param used_words: all words that are already used and should not be considered
         """
-        raise NotImplementedError
+        output: List[str] = list()
+        for i in all_words:
+            distance = self.distance(word, i)
+            if distance == 1 and i not in used_words:
+                output.append(i)
+            used_words.add(i)
+
+        return output
 
     def build_ladder(self, word_start: str, word_stop: str) -> List[str]:
         """
@@ -67,6 +82,14 @@ class Solver:
 def main():
     """Main"""
     solver = Solver("/home/adam/Documents/CS-160/ads-class-pub/data/projects/wordladder/words.txt")
+    print(
+        solver.diff_by_one_all(
+            "elk",
+            {"elf", "eld", "ilk", "elt", "eli", "els", "alk", "elm", "elb", "ell"},
+            {"elf", "ilk", "eli", "elm", "elb"}
+        )
+    )
+
 
 if __name__ == "__main__":
     main()
