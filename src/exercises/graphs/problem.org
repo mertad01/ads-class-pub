@@ -1,0 +1,184 @@
+#+TITLE: Problems
+#+STARTUP: align
+
+[[~/Documents/CS-160/ads-class-pub/src/exercises/graphs/network (1).png]]
+
+* Problem 1
+
+** Question
+Assume the network graph in the picture above and use Dijkstra's algorithm to manually find the shortest path from *vertex t to all other vertices* in the network. Show each step of the algorithm.
+
+** Answer
+SDT = Shortest Distance From T, PV = Previous Vertex
+
+*** Simple
+| T | U | V | W | X | Y | Z  |
+|---+---+---+---+---+---+----|
+| ∞ | ∞ | ∞ | ∞ | ∞ | ∞ | ∞  |
+| 0 | 2 | 4 | ∞ | ∞ | 7 | ∞  |
+| 0 | 2 | 4 | 5 | ∞ | 7 | ∞  |
+| 0 | 2 | 4 | 5 | 7 | 7 | ∞  |
+| 0 | 2 | 4 | 5 | 7 | 7 | ∞  |
+| 0 | 2 | 4 | 5 | 7 | 7 | 15 |
+| 0 | 2 | 4 | 5 | 7 | 7 | 15 |
+| 0 | 2 | 4 | 5 | 7 | 7 | 15 |
+*** Extended
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 0 |                 |
+| U      |                 2 | T               |
+| V      |                 4 | T               |
+| W      |                 ∞ |                 |
+| X      |                 ∞ |                 |
+| Y      |                 7 | T               |
+| Z      |                 ∞ |                 |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 0 |                 |
+| U      |                 2 | T               |
+| V      |                 4 | T               |
+| W      |                 5 | U               |
+| X      |                 ∞ |                 |
+| Y      |                 7 | T               |
+| Z      |                 ∞ |                 |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 0 |                 |
+| U      |                 2 | T               |
+| V      |                 4 | T               |
+| W      |                 5 | U               |
+| X      |                 7 | V               |
+| Y      |                 7 | T               |
+| Z      |                 ∞ |                 |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 0 |                 |
+| U      |                 2 | T               |
+| V      |                 4 | T               |
+| W      |                 5 | U               |
+| X      |                 7 | V               |
+| Y      |                 7 | T               |
+| Z      |                 ∞ |                 |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 0 |                 |
+| U      |                 2 | T               |
+| V      |                 4 | T               |
+| W      |                 5 | U               |
+| X      |                 7 | V               |
+| Y      |                 7 | T               |
+| Z      |                15 | X               |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 0 |                 |
+| U      |                 2 | T               |
+| V      |                 4 | T               |
+| W      |                 5 | U               |
+| X      |                 7 | V               |
+| Y      |                 7 | T               |
+| Z      |                15 | X               |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 0 |                 |
+| U      |                 2 | T               |
+| V      |                 4 | T               |
+| W      |                 5 | U               |
+| X      |                 7 | V               |
+| Y      |                 7 | T               |
+| Z      |                15 | X               |
+
+* Problem 2
+
+** Question
+Assume the network graph in the picture above and use Dijkstra's algorithm to manually find the shortest path from *vertex x to all other vertices in the network*. Show each step of the algorithm.
+
+** Answer
+
+*** Simple
+| T | U | V | W | X | Y | Z |
+|---+---+---+---+---+---+---|
+| ∞ | ∞ | ∞ | ∞ | ∞ | ∞ | ∞ |
+| ∞ | ∞ | 3 | 6 | 0 | 6 | 8 |
+| 7 | 6 | 3 | 6 | 0 | 6 | 8 |
+| 7 | 6 | 3 | 6 | 0 | 6 | 8 |
+| 7 | 6 | 3 | 6 | 0 | 6 | 8 |
+| 7 | 6 | 3 | 6 | 0 | 6 | 8 |
+| 7 | 6 | 3 | 6 | 0 | 6 | 8 |
+| 7 | 6 | 3 | 6 | 0 | 6 | 8 |
+
+*** Extended
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 ∞ |                 |
+| U      |                 ∞ |                 |
+| V      |                 3 | X               |
+| W      |                 6 | X               |
+| X      |                 0 |                 |
+| Y      |                 6 | X               |
+| Z      |                 8 | X               |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 7 | V               |
+| U      |                 6 | V               |
+| V      |                 3 | X               |
+| W      |                 6 | X               |
+| X      |                 0 |                 |
+| Y      |                 6 | X               |
+| Z      |                 8 | X               |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 7 | V               |
+| U      |                 6 | V               |
+| V      |                 3 | X               |
+| W      |                 6 | X               |
+| X      |                 0 |                 |
+| Y      |                 6 | X               |
+| Z      |                 8 | X               |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 7 | V               |
+| U      |                 6 | V               |
+| V      |                 3 | X               |
+| W      |                 6 | X               |
+| X      |                 0 |                 |
+| Y      |                 6 | X               |
+| Z      |                 8 | X               |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 7 | V               |
+| U      |                 6 | V               |
+| V      |                 3 | X               |
+| W      |                 6 | X               |
+| X      |                 0 |                 |
+| Y      |                 6 | X               |
+| Z      |                 8 | X               |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 7 | V               |
+| U      |                 6 | V               |
+| V      |                 3 | X               |
+| W      |                 6 | X               |
+| X      |                 0 |                 |
+| Y      |                 6 | X               |
+| Z      |                 8 | X               |
+|--------+-------------------+-----------------|
+| Vertex | Shortest Distance | Previous Vertex |
+|--------+-------------------+-----------------|
+| T      |                 7 | V               |
+| U      |                 6 | V               |
+| V      |                 3 | X               |
+| W      |                 6 | X               |
+| X      |                 0 |                 |
+| Y      |                 6 | X               |
+| Z      |                 8 | X               |

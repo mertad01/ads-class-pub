@@ -2,7 +2,7 @@
 """
 Exercise `graphs` implementation
 
-@author:
+@author: Adam Mertzenich
 """
 
 import heapq
@@ -78,9 +78,9 @@ class Vertex:
         """Get discovery time"""
         return self._discovered
 
-    def set_discovery(self, t):
+    def set_discovery(self, time):
         """Set discovery time"""
-        self._discovered = t
+        self._discovered = time
 
     discovered = property(get_discovery, set_discovery)
 
@@ -125,7 +125,8 @@ class Graph:
         self.vertices[key] = new_vertex
 
     def add_edge(self, from_vertex: str, to_vertex: str, weight=0):
-        """Add a new, weighted, directed edge to the graph that connects two vertices"""
+        """Add a new, weighted, directed edge to the graph that connects
+        two vertices"""
         if from_vertex not in self.vertices:
             self.add_vertex(from_vertex)
         if to_vertex not in self.vertices:
@@ -146,7 +147,8 @@ class Graph:
             v.set_distance(sys.maxsize)
 
     def __contains__(self, key: str):
-        """Return True for a statement of the form vertex in graph, if the given vertex is in the graph, False otherwise"""
+        """Return True for a statement of the form vertex in graph, if the
+        given vertex is in the graph, False otherwise"""
         return key in self.vertices
 
     def __iter__(self):
@@ -155,15 +157,29 @@ class Graph:
 
     def __len__(self):
         """Graph's size"""
-        raise NotImplementedError
+        return len(self.vertices)
 
     def hub(self):
         """Find a Vertex with the most outgoing edges"""
-        raise NotImplementedError
+        vertices = self.get_vertices()
+        size = 0
+        result: Vertex = None
+        for i in vertices:
+            if i:
+                if size < len(self.vertices[i].get_all_neighbors()):
+                    size = len(self.vertices[i].get_all_neighbors())
+                    result = self.vertices[i]
+        return result.get_key()
 
     def size(self):
         """Find the number of edges in a Graph"""
-        raise NotImplementedError
+        vertices = self.get_vertices()
+        size = 0
+        for i in vertices:
+            if i:
+                size += len(self.vertices[i].get_all_neighbors())
+        return size//2
+
 
     def dijkstra(self, start: Vertex) -> None:
         """Dijkstra's shortest path algorithm"""
@@ -188,3 +204,36 @@ class Graph:
                     if not found:
                         heapq.heappush(pq, [next_vertex.distance, next_vertex])
 
+
+def main():
+    """Main"""
+    graph = Graph()
+    graph.add_edge("t", "u", 2)
+    graph.add_edge("t", "v", 4)
+    graph.add_edge("t", "y", 7)
+    graph.add_edge("u", "t", 2)
+    graph.add_edge("u", "v", 3)
+    graph.add_edge("u", "w", 3)
+    graph.add_edge("v", "t", 4)
+    graph.add_edge("v", "u", 3)
+    graph.add_edge("v", "w", 4)
+    graph.add_edge("v", "x", 3)
+    graph.add_edge("v", "y", 8)
+    graph.add_edge("w", "u", 3)
+    graph.add_edge("w", "v", 4)
+    graph.add_edge("w", "x", 6)
+    graph.add_edge("x", "v", 3)
+    graph.add_edge("x", "w", 6)
+    graph.add_edge("x", "y", 6)
+    graph.add_edge("x", "z", 8)
+    graph.add_edge("y", "t", 7)
+    graph.add_edge("y", "v", 8)
+    graph.add_edge("y", "x", 6)
+    graph.add_edge("y", "z", 12)
+    graph.add_edge("z", "x", 8)
+    graph.add_edge("z", "y", 12)
+    print(graph.hub())
+
+
+if __name__ == "__main__":
+    main()
