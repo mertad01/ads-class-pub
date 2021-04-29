@@ -31,13 +31,37 @@ def read_file(filename: str) -> Graph:
         for actor in combo[movie]:
             for loc in range(len(combo[movie])):
                 if actor != combo[movie][loc]:
-                    graph.add_edge(actor, combo[movie][loc])
+                    graph.add_edge(actor, combo[movie][loc], 1)
     return graph
 
+def traverse(graph, src, dst):
+    """Traverse a graph"""
+    path = []
+    current = graph.get_vertex(dst)
+    while current:
+        path.append(current)
+        current = current.previous
+    return graph.get_vertex(dst).distance
 
 def find_max_kbn_actors(graph: Graph) -> List[str]:
     """Find actor(s) with the highest KBN value"""
-    raise NotImplementedError
+    key: list = []
+    val: list = []
+    for i in graph.get_vertices():
+        if len(key) == 0:
+            key.append(i)
+            val.append(traverse(graph, "Kevin Bacon", i))
+        else:
+            trav = traverse(graph, "Kevin Bacon", i)
+            if trav > val[-1]:
+                key.clear()
+                val.clear()
+                key.append(i)
+                val.append(traverse(graph, "Kevin Bacon", i))
+            if trav == val[-1]:
+                key.append(i)
+                val.append(traverse(graph, "Kevin Bacon", i))
+    return key
 
 
 def main():
@@ -48,6 +72,7 @@ def main():
 
     print("Kevin Bacon number calculator")
     print("Reading the file")
+    # the_graph = read_file("/home/adam/Documents/CS-160/ads-class-pub/data/projects/kevinbacon/movie_actors_test.txt")
     the_graph = read_file("/home/adam/Documents/CS-160/ads-class-pub/data/projects/kevinbacon/movie_actors_full.txt")
 
     print("Analyzing the graph")
@@ -58,30 +83,32 @@ def main():
     print(f"There are {connections} connections between actors in the file")
     print()
 
-    # print("Finding paths")
-    # kevin = the_graph.get_vertex("Kevin Bacon")
-    # time_start = time.time()
-    # the_graph.bfs(kevin)
-    # time_end = time.time()
-    # elapsed = time_end - time_start
-    # print(f"Paths found in {elapsed:.2f} sec")
-    # print()
+    print("Finding paths")
+    kevin = the_graph.get_vertex("Kevin Bacon")
+    time_start = time.time()
+    the_graph.bfs(kevin)
+    time_end = time.time()
+    elapsed = time_end - time_start
+    print(f"Paths found in {elapsed:.2f} sec")
+    print()
 
-    # print("Looking for actors with the highest Kevin Bacon number")
-    # time_start = time.time()
-    # high_kbn_lst = find_max_kbn_actors(the_graph)
-    # time_end = time.time()
-    # elapsed = time_end - time_start
-    # print(f"{len(high_kbn_lst)} actor(s) found in {elapsed:.2f} sec")
+    # the_graph.traverse("Kevin Bacon", "Buster Keaton")
+
+    print("Looking for actors with the highest Kevin Bacon number")
+    time_start = time.time()
+    high_kbn_lst = find_max_kbn_actors(the_graph)
+    time_end = time.time()
+    elapsed = time_end - time_start
+    print(f"{len(high_kbn_lst)} actor(s) found in {elapsed:.2f} sec")
     # print(
     #     "The following actor(s) have the Kevin Bacon number of "
     #     + f"{the_graph.get_vertex(high_kbn_lst[0]).get_distance()}:"
     # )
     # for name in high_kbn_lst:
     #     print(name)
-    # print()
+    print()
 
-    # actor = " ".join(args.actor) or high_kbn_lst[0]
+    actor = " ".join(args.actor) or high_kbn_lst[0]
     # raise NotImplementedError
 
 
