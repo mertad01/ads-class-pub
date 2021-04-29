@@ -66,51 +66,24 @@ def find_max_kbn_actors(graph: Graph) -> List[str]:
 
 def main():
     """Main function"""
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument("actor", type=str, nargs="*")
-    args = argparser.parse_args()
+    print("Initializing...", "\n")
 
-    print("Kevin Bacon number calculator")
-    print("Reading the file")
-    # the_graph = read_file("/home/adam/Documents/CS-160/ads-class-pub/data/projects/kevinbacon/movie_actors_test.txt")
-    the_graph = read_file("/home/adam/Documents/CS-160/ads-class-pub/data/projects/kevinbacon/movie_actors_full.txt")
-
-    print("Analyzing the graph")
-    connections = 0
-    for vertex in the_graph:
-        connections = connections + len(vertex.get_neighbors())
-    print(f"There are {len(the_graph)} connected actors in the file")
-    print(f"There are {connections} connections between actors in the file")
-    print()
-
-    print("Finding paths")
-    kevin = the_graph.get_vertex("Kevin Bacon")
-    time_start = time.time()
-    the_graph.bfs(kevin)
-    time_end = time.time()
-    elapsed = time_end - time_start
-    print(f"Paths found in {elapsed:.2f} sec")
-    print()
-
-    # the_graph.traverse("Kevin Bacon", "Buster Keaton")
-
-    print("Looking for actors with the highest Kevin Bacon number")
-    time_start = time.time()
-    high_kbn_lst = find_max_kbn_actors(the_graph)
-    time_end = time.time()
-    elapsed = time_end - time_start
-    print(f"{len(high_kbn_lst)} actor(s) found in {elapsed:.2f} sec")
-    # print(
-    #     "The following actor(s) have the Kevin Bacon number of "
-    #     + f"{the_graph.get_vertex(high_kbn_lst[0]).get_distance()}:"
-    # )
-    # for name in high_kbn_lst:
-    #     print(name)
-    print()
-
-    actor = " ".join(args.actor) or high_kbn_lst[0]
-    # raise NotImplementedError
-
+    the_graph = read_file("data/projects/kevinbacon/movie_actors_full.txt")
+    the_graph.bfs(the_graph.get_vertex("Kevin Bacon"))
+    while True:
+        question = input("What actor would you like to trace (exit to quit) ")
+        if question == "exit":
+            break
+        print(
+            f"{question}'s Kevin Bacon number is",
+            traverse(the_graph, "Kevin Bacon", question)
+        )
+        road_to_kb = []
+        vertex = the_graph.get_vertex(question)
+        while vertex:
+            road_to_kb.append(vertex.key)
+            vertex = vertex.previous
+        print("Path: ", " -> ".join(road_to_kb), "\n")
 
 if __name__ == "__main__":
     main()
