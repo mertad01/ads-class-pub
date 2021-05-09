@@ -96,7 +96,7 @@ def main():
     """Main function"""
     # print(postfix_eval("a b + ="))
     # rpn_calc(f"/home/adam/Documents/CS-160/ads-class-pub/data/projects/rpn/rpn_input_2.txt")
-    print(postfix_eval("2 1 8 11 ** * // ="))
+    print(postfix_eval("2 3 + 4 * 1 ** 1 3 % 0 - 4 2 ** 9 // ** * ="))
 
 
 if __name__ == "__main__":

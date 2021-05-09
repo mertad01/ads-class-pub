@@ -88,16 +88,14 @@ class Stack:
 def main():
     """Main"""
     the_stack = Stack()
-    items = [
-        [],
-        [(1, "a")],
-        ["a", "b"],
-        [1, 2, 3]
-    ]
-    for item in items:
-        the_stack.push(item)
-    for _ in range(999):
-        the_stack.pop()
+    the_stack.push("First")
+    the_stack.push("Second")
+    the_stack.push({1, 2, 3, 4, 5})
+    print(the_stack.pop())
+    the_stack.push([True, False, True, True])
+    print(the_stack.pop())
+    print(the_stack.pop())
+    print(the_stack.pop())
 
 
 if __name__ == "__main__":

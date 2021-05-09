@@ -186,21 +186,22 @@ class HashMap:
 
 def main():
     """main"""
-    zoo = HashMap(11)
+    zoo = HashMap(19)
     map_items = [
-        (54, "aardvark"),
-        (26, "beaver"),
-        (93, "cheetah"),
-        (17, "dolphin"),
-        (77, "elephant"),
-        (31, "flamingo"),
-        (44, "goat"),
-        (55, "hippo"),
-        (20, "iguana"),
+        (32, "aardvark"),
+        (36, "beaver"),
+        (38, "cheetah"),
+        (42, "dolphin"),
+        (48, "elephant"),
+        (49, "flamingo"),
+        (23, "goat"),
+        (25, "hippo"),
+        (30, "iguana"),
+        (31, "iguana")
     ]
     for key, value in map_items:
         zoo[key] = value
-    print(zoo)
+    print(zoo._size)
 
 
 if __name__ == "__main__":
